@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BIO Data</title>
+    <title>Biodata</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -192,6 +192,10 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        display: inline-block;
+        max-width: 100%;
       }
 
       .contact-info {
@@ -255,6 +259,24 @@
           margin-top: 0;
         }
       }
+
+      @media (max-width: 600px) {
+        li span {
+          font-size: 0.8rem;
+          text-overflow: clip;
+          overflow: visible;
+        }
+
+        li {
+          flex-wrap: nowrap;
+          gap: 5px;
+        }
+
+        li strong {
+          flex: 0 0 auto;
+          font-size: 0.8rem;
+        }
+      }
     </style>
   </head>
   <body oncontextmenu="return false;">
@@ -267,9 +289,7 @@
       <div class="header">
         <div class="header-decoration">✧</div>
         <h1>Ismail</h1>
-        <p class="subtitle">
-          Seeking a pious life partner with Allah's blessings
-        </p>
+        <p class="subtitle">Seeking a partner with Allah's blessings</p>
       </div>
 
       <div class="content">
@@ -304,6 +324,16 @@
                 <strong>Siblings:</strong> <span>3 Brothers, 2 Sisters</span>
               </li>
               <li>
+                <strong>Status:</strong>
+                Elder siblings are married
+              </li>
+              <li>One elder brother is an advocate.</li>
+              <li>One elder brother is an advocate.</li>
+              <li>
+                Younger brother is a sales executive in the medical field.
+              </li>
+
+              <li>
                 <strong>Values:</strong> <span>Education-oriented family</span>
               </li>
             </ul>
@@ -323,22 +353,11 @@
 
         <div class="photo-container">
           <div class="photo-stack">
-           <img
+            <img
               src="img/img1.jpg"
               alt="Ismail's Profile Photo 1"
               class="photo active"
             />
-            <img
-              src="img/img2.jpg"
-              alt="Ismail's Profile Photo 2"
-              class="photo"
-            />
-            <img
-              src="img/img3.jpg"
-              alt="Ismail's Profile Photo 3"
-              class="photo"
-            />
-
           </div>
           <div class="photo-nav">
             <div class="photo-dot active" data-index="0"></div>
@@ -356,10 +375,6 @@
           </li>
           <li>
             <strong>Address:</strong> <span>Hubballi, Karnataka, India</span>
-          </li>
-          <li>
-            <strong>Note:</strong>
-            <span>Serious inquiries only. Family contact preferred.</span>
           </li>
         </ul>
       </section>
@@ -413,13 +428,3 @@
     </script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
