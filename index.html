@@ -1,3 +1,4 @@
+<!-- SAVE AS index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,9 +17,6 @@
         padding: 0;
         box-sizing: border-box;
         user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
       }
 
       body {
@@ -26,16 +24,16 @@
         line-height: 1.8;
         color: #444;
         background-color: #f8f5f0;
-        padding: 30px;
+        padding: 20px;
       }
 
       .biodata-container {
         max-width: 1000px;
-        margin: 0 auto;
+        margin: auto;
         background: white;
+        border: 1px solid #e0d6c2;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         position: relative;
-        border: 1px solid #e0d6c2;
       }
 
       .biodata-container::before {
@@ -51,8 +49,8 @@
       .header {
         padding: 50px 40px 30px;
         text-align: center;
-        position: relative;
         border-bottom: 1px solid #e0d6c2;
+        position: relative;
       }
 
       .header-decoration {
@@ -69,35 +67,83 @@
         font-size: 3rem;
         margin-bottom: 10px;
         color: #333;
-        letter-spacing: 1px;
       }
 
       .subtitle {
         font-family: "Cinzel", serif;
         font-size: 1.2rem;
         color: #d4af37;
-        font-weight: 400;
-        letter-spacing: 1px;
       }
 
       .content {
         display: flex;
-        padding: 40px;
         flex-wrap: wrap;
+        padding: 40px;
+        gap: 30px;
       }
 
       .details {
-        width: 100%;
-        padding-right: 40px;
+        flex: 1 1 60%;
       }
 
       .photo-container {
-        width: 100%;
-        margin-top: 30px;
+        flex: 1 1 35%;
+      }
+
+      section {
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-family: "Cinzel", serif;
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e0d6c2;
+        padding-bottom: 5px;
+        position: relative;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100px;
+        height: 2px;
+        background: #d4af37;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      li {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      li strong {
+        width: 150px;
+        color: #777;
+      }
+
+      li span {
+        flex: 1;
+        font-size: 0.9rem;
+      }
+
+      .contact-info {
+        background: #faf8f3;
+        padding: 25px;
+        border-top: 2px solid #d4af37;
+        border-bottom: 2px solid #d4af37;
+        margin: 0 30px 30px;
       }
 
       .photo-stack {
-        height: 680px;
+        height: 480px;
         position: relative;
         border: 5px solid #f8f5f0;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -120,7 +166,7 @@
       .photo-nav {
         display: flex;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 15px;
       }
 
       .photo-dot {
@@ -130,81 +176,11 @@
         background: #e0d6c2;
         margin: 0 6px;
         cursor: pointer;
-        transition: all 0.3s ease;
       }
 
       .photo-dot.active {
         background: #d4af37;
-        transform: scale(1.3);
-      }
-
-      section {
-        margin-bottom: 30px;
-      }
-
-      h2 {
-        font-family: "Cinzel", serif;
-        color: #333;
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #e0d6c2;
-        position: relative;
-      }
-
-      h2::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100px;
-        height: 2px;
-        background: #d4af37;
-      }
-
-      ul {
-        list-style: none;
-      }
-
-      li {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        flex-wrap: nowrap;
-        margin-bottom: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      li strong {
-        flex: 0 0 150px;
-        color: #777;
-        font-weight: 500;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      li span {
-        flex: 1;
-        min-width: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 0.9rem;
-        line-height: 1.2;
-        display: inline-block;
-        max-width: 100%;
-      }
-
-      .contact-info {
-        background: #faf8f3;
-        padding: 25px;
-        margin-left: 35px;
-        margin-right: 35px;
-        border-top: 2px solid #d4af37;
-        border-bottom: 2px solid #d4af37;
+        transform: scale(1.2);
       }
 
       .corner-decoration {
@@ -245,61 +221,28 @@
         border-right-width: 2px;
       }
 
-      @media (min-width: 901px) {
+      @media (max-width: 768px) {
         .content {
-          flex-direction: row;
+          flex-direction: column;
+          padding: 20px;
         }
 
-        .details {
-          width: 60%;
+        .contact-info {
+          margin: 0 15px 30px;
+          padding: 15px;
         }
 
-        .photo-container {
-          width: 40%;
-          margin-top: 0;
-        }
-      }
-
-      @media (max-width: 600px) {
-        li span {
-          font-size: 0.8rem;
-          text-overflow: clip;
-          overflow: visible;
+        .header h1 {
+          font-size: 2.2rem;
         }
 
-        li {
-          flex-wrap: nowrap;
-          gap: 5px;
-        }
-
-        li strong {
-          flex: 0 0 auto;
-          font-size: 0.8rem;
+        .subtitle {
+          font-size: 1rem;
         }
       }
-      @media (max-width: 600px) {
-  body {
-    padding: 10px;
-  }
-
-  .details {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .content {
-    padding: 20px 10px;
-  }
-
-  .contact-info {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 15px;
-  }
-}
-
     </style>
   </head>
+
   <body oncontextmenu="return false;">
     <div class="biodata-container">
       <div class="corner-decoration top-left"></div>
@@ -318,51 +261,31 @@
           <section>
             <h2>Personal Information</h2>
             <ul>
-              <li>
-                <strong>Date of Birth:</strong> <span>10-August-1997</span>
-              </li>
+              <li><strong>Date of Birth:</strong> <span>10-August-1997</span></li>
               <li><strong>Height:</strong> <span>5 feet 8 inches</span></li>
               <li><strong>Religion:</strong> <span>Muslim</span></li>
               <li><strong>Education:</strong> <span>BCA (graduate)</span></li>
-              <li>
-                <strong>Profession:</strong> <span>Software Engineering</span>
-              </li>
+              <li><strong>Profession:</strong> <span>Software Engineer</span></li>
             </ul>
           </section>
 
           <section>
             <h2>Family Background</h2>
             <ul>
-              <li>
-                <strong>Father:</strong>
-                <span>ChamanSab Bhattipuri (Landlord)</span>
-              </li>
+              <li><strong>Father:</strong> <span>Chamansab Bhattipuri (Landlord)</span></li>
+              <li><strong>Area:</strong> <span>Real Estate in Bankapur, Shiggaon, Savanur & nearby</span></li>
               <li><strong>Mother:</strong> <span>Homemaker</span></li>
-              <li>
-                <strong>Siblings:</strong> <span>3 Brothers, 2 Sisters</span>
-              </li>
-              <li>
-                <strong>Status:</strong>
-                Elder siblings are married
-              </li>
-              <li>One elder brother is an advocate.</li>
-              <li>
-                Younger brother is a sales executive in the medical field.
-              </li>
-
-              <li>
-                <strong>Values:</strong> <span>Education-oriented family</span>
-              </li>
+              <li><strong>Siblings:</strong> <span>2 Brothers, 2 Sisters (All Elder Married)</span></li>
+              <li><strong>Brother 1:</strong> <span>Advocate</span></li>
+              <li><strong>Brother 2:</strong> <span>Medical Sales Executive</span></li>
+              <li><strong>Family Values:</strong> <span>Education-oriented</span></li>
             </ul>
           </section>
 
           <section>
-            <h2>Expectations from Partner</h2>
+            <h2>Expectations</h2>
             <ul>
-              <li>
-                <strong>Profession:</strong>
-                <span>Working or non-working both acceptable</span>
-              </li>
+              <li><strong>Profession:</strong> <span>Working or non-working both acceptable</span></li>
               <li><strong>Values:</strong> <span>Education-oriented</span></li>
             </ul>
           </section>
@@ -370,16 +293,12 @@
 
         <div class="photo-container">
           <div class="photo-stack">
-            <img
-              src="img/img1.jpg"
-              alt="Ismail's Profile Photo 1"
-              class="photo active"
-            />
+            <img src="img/img1.jpg" class="photo active" alt="Photo 1" />
+            <img src="img/img3.jpg" class="photo" alt="Photo 2" />
           </div>
           <div class="photo-nav">
             <div class="photo-dot active" data-index="0"></div>
             <div class="photo-dot" data-index="1"></div>
-            <div class="photo-dot" data-index="2"></div>
           </div>
         </div>
       </div>
@@ -387,12 +306,8 @@
       <section class="contact-info">
         <h2>Contact Information</h2>
         <ul>
-          <li>
-            <strong>Phone:</strong> <span>+91-9964716276 (Father's)</span>
-          </li>
-          <li>
-            <strong>Address:</strong> <span>Hubballi, Karnataka, India</span>
-          </li>
+          <li><strong>Phone:</strong> <span>+91-9964716276 (Father's)</span></li>
+          <li><strong>Address:</strong> <span>Hubballi, Karnataka, India</span></li>
         </ul>
       </section>
     </div>
@@ -417,11 +332,9 @@
         photos.forEach((photo, i) => {
           photo.classList.toggle("active", i === index);
         });
-
         dots.forEach((dot, i) => {
           dot.classList.toggle("active", i === index);
         });
-
         currentIndex = index;
       }
 
@@ -432,19 +345,15 @@
         });
       });
 
-      const photoStack = document.querySelector(".photo-stack");
-      photoStack.addEventListener("click", function () {
-        const nextIndex = (currentIndex + 1) % photos.length;
-        showPhoto(nextIndex);
+      document.querySelector(".photo-stack").addEventListener("click", () => {
+        const next = (currentIndex + 1) % photos.length;
+        showPhoto(next);
       });
 
       setInterval(() => {
-        const nextIndex = (currentIndex + 1) % photos.length;
-        showPhoto(nextIndex);
+        const next = (currentIndex + 1) % photos.length;
+        showPhoto(next);
       }, 5000);
     </script>
   </body>
 </html>
-
-
-
