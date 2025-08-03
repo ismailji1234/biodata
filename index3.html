@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marriage Biodata - Ismail B.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      body {
+        font-family: "Lora", serif;
+        line-height: 1.8;
+        color: #444;
+        background-color: #f8f5f0;
+        padding: 30px;
+      }
+
+      .biodata-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        border: 1px solid #e0d6c2;
+      }
+
+      .biodata-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: linear-gradient(90deg, #d4af37, #f9d423, #d4af37);
+      }
+
+      .header {
+        padding: 50px 40px 30px;
+        text-align: center;
+        position: relative;
+        border-bottom: 1px solid #e0d6c2;
+      }
+
+      .header-decoration {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 1.5rem;
+        color: #d4af37;
+        opacity: 0.5;
+      }
+
+      h1 {
+        font-family: "Cinzel", serif;
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: #333;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-family: "Cinzel", serif;
+        font-size: 1.2rem;
+        color: #d4af37;
+        font-weight: 400;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        display: flex;
+        padding: 40px;
+        flex-wrap: wrap;
+      }
+
+      .details {
+        width: 100%;
+        padding-right: 40px;
+      }
+
+      .photo-container {
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .photo-stack {
+        height: 680px;
+        position: relative;
+        border: 5px solid #f8f5f0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .photo {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .photo.active {
+        opacity: 1;
+      }
+
+      .photo-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .photo-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #e0d6c2;
+        margin: 0 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .photo-dot.active {
+        background: #d4af37;
+        transform: scale(1.3);
+      }
+
+      section {
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-family: "Cinzel", serif;
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e0d6c2;
+        position: relative;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100px;
+        height: 2px;
+        background: #d4af37;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      li strong {
+        flex: 0 0 150px;
+        color: #777;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      li span {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .contact-info {
+        background: #faf8f3;
+        padding: 25px;
+        margin-left: 35px;
+        margin-right: 35px;
+        border-top: 2px solid #d4af37;
+        border-bottom: 2px solid #d4af37;
+      }
+
+      .corner-decoration {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-color: #d4af37;
+        border-style: solid;
+        border-width: 0;
+        opacity: 0.3;
+      }
+
+      .top-left {
+        top: 10px;
+        left: 10px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+
+      .top-right {
+        top: 10px;
+        right: 10px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+
+      .bottom-left {
+        bottom: 10px;
+        left: 10px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+
+      .bottom-right {
+        bottom: 10px;
+        right: 10px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+
+      @media (min-width: 901px) {
+        .content {
+          flex-direction: row;
+        }
+
+        .details {
+          width: 60%;
+        }
+
+        .photo-container {
+          width: 40%;
+          margin-top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body oncontextmenu="return false;">
+    <div class="biodata-container">
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
+
+      <div class="header">
+        <div class="header-decoration">✧</div>
+        <h1>Ismail</h1>
+        <p class="subtitle">
+          Seeking a pious life partner with Allah's blessings
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="details">
+          <section>
+            <h2>Personal Information</h2>
+            <ul>
+              <li>
+                <strong>Date of Birth:</strong> <span>10-August-1997</span>
+              </li>
+              <li><strong>Height:</strong> <span>5 feet 8 inches</span></li>
+              <li><strong>Religion:</strong> <span>Muslim</span></li>
+              <li><strong>Education:</strong> <span>BCA (graduate)</span></li>
+              <li>
+                <strong>Profession:</strong> <span>Software Engineering</span>
+              </li>
+              <li>
+                <strong>Native Place:</strong> <span>Hubli, Karnataka</span>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Family Background</h2>
+            <ul>
+              <li>
+                <strong>Father:</strong>
+                <span>ChamanSab Bhattipuri (Landlord)</span>
+              </li>
+              <li><strong>Mother:</strong> <span>Homemaker</span></li>
+              <li>
+                <strong>Siblings:</strong> <span>3 Brothers, 2 Sisters</span>
+              </li>
+              <li>
+                <strong>Values:</strong> <span>Education-oriented family</span>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Expectations from Partner</h2>
+            <ul>
+              <li>
+                <strong>Profession:</strong>
+                <span>Working or non-working both acceptable</span>
+              </li>
+              <li><strong>Values:</strong> <span>Education-oriented</span></li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="photo-container">
+          <div class="photo-stack">
+            <img
+              src="img/IMG_20250803_145144.jpg"
+              alt="Ismail's Profile Photo 1"
+              class="photo active"
+            />
+            <img
+              src="img/IMG_20250803_145611.jpg"
+              alt="Ismail's Profile Photo 2"
+              class="photo"
+            />
+            <img
+              src="img/IMG_20250803_145649.jpg"
+              alt="Ismail's Profile Photo 3"
+              class="photo"
+            />
+          </div>
+          <div class="photo-nav">
+            <div class="photo-dot active" data-index="0"></div>
+            <div class="photo-dot" data-index="1"></div>
+            <div class="photo-dot" data-index="2"></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="contact-info">
+        <h2>Contact Information</h2>
+        <ul>
+          <li>
+            <strong>Phone:</strong> <span>+91-7406580895 (Father's)</span>
+          </li>
+          <li>
+            <strong>Address:</strong> <span>Hubballi, Karnataka, India</span>
+          </li>
+          <li>
+            <strong>Note:</strong>
+            <span>Serious inquiries only. Family contact preferred.</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      document.addEventListener("copy", function (e) {
+        e.preventDefault();
+        alert("Content copying is disabled for privacy reasons.");
+      });
+
+      document.addEventListener("dragstart", function (e) {
+        if (e.target.tagName === "IMG") {
+          e.preventDefault();
+        }
+      });
+
+      const photos = document.querySelectorAll(".photo");
+      const dots = document.querySelectorAll(".photo-dot");
+      let currentIndex = 0;
+
+      function showPhoto(index) {
+        photos.forEach((photo, i) => {
+          photo.classList.toggle("active", i === index);
+        });
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+
+        currentIndex = index;
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", function () {
+          const index = parseInt(this.getAttribute("data-index"));
+          showPhoto(index);
+        });
+      });
+
+      const photoStack = document.querySelector(".photo-stack");
+      photoStack.addEventListener("click", function () {
+        const nextIndex = (currentIndex + 1) % photos.length;
+        showPhoto(nextIndex);
+      });
+
+      setInterval(() => {
+        const nextIndex = (currentIndex + 1) % photos.length;
+        showPhoto(nextIndex);
+      }, 5000);
+    </script>
+  </body>
+</html>
