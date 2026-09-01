@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biodata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      /* Watermark styling */
+      body::before {
+        content: "CONFIDENTIAL - DO NOT SHARE";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 3rem;
+        color: rgba(212, 175, 55, 0.1);
+        z-index: 9999;
+        pointer-events: none;
+        white-space: nowrap;
+        font-family: "Cinzel", serif;
+      }
+
+      /* Rest of your existing CSS remains the same */
+      body {
+        font-family: "Lora", serif;
+        line-height: 1.8;
+        color: #444;
+        background-color: #f8f5f0;
+        padding: 20px;
+      }
+
+      .biodata-container {
+        max-width: 1000px;
+        margin: auto;
+        background: white;
+        border: 1px solid #e0d6c2;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .biodata-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 10px;
+        background: linear-gradient(90deg, #d4af37, #f9d423, #d4af37);
+      }
+
+      .header {
+        padding: 50px 40px 30px;
+        text-align: center;
+        border-bottom: 1px solid #e0d6c2;
+        position: relative;
+      }
+
+      .header-decoration {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 1.5rem;
+        color: #d4af37;
+        opacity: 0.5;
+      }
+
+      h1 {
+        font-family: "Cinzel", serif;
+        font-size: 3rem;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .subtitle {
+        font-family: "Cinzel", serif;
+        font-size: 1.2rem;
+        color: #d4af37;
+      }
+
+      .content {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 40px;
+        gap: 30px;
+      }
+
+      .details {
+        flex: 1 1 60%;
+      }
+
+      .photo-container {
+        flex: 1 1 35%;
+      }
+
+      section {
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        font-family: "Cinzel", serif;
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e0d6c2;
+        padding-bottom: 5px;
+        position: relative;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100px;
+        height: 2px;
+        background: #d4af37;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      li {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      li strong {
+        width: 150px;
+        color: #777;
+      }
+
+      li span {
+        flex: 1;
+        font-size: 0.9rem;
+      }
+
+      .contact-info {
+        background: #faf8f3;
+        padding: 25px;
+        border-top: 2px solid #d4af37;
+        border-bottom: 2px solid #d4af37;
+        margin: 0 30px 30px;
+      }
+
+      .photo-stack {
+        height: 480px;
+        position: relative;
+        border: 5px solid #f8f5f0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .photo {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+      }
+
+      .photo.active {
+        opacity: 1;
+      }
+
+      .photo-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+      }
+
+      .photo-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #e0d6c2;
+        margin: 0 6px;
+        cursor: pointer;
+      }
+
+      .photo-dot.active {
+        background: #d4af37;
+        transform: scale(1.2);
+      }
+
+      .corner-decoration {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-color: #d4af37;
+        border-style: solid;
+        border-width: 0;
+        opacity: 0.3;
+      }
+
+      .top-left {
+        top: 10px;
+        left: 10px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+
+      .top-right {
+        top: 10px;
+        right: 10px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+
+      .bottom-left {
+        bottom: 10px;
+        left: 10px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+
+      .bottom-right {
+        bottom: 10px;
+        right: 10px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+
+      /* Protection overlay */
+      .protection-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 10000;
+        font-family: "Cinzel", serif;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .protection-overlay h2 {
+        color: #d4af37;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        border: none;
+      }
+
+      .protection-overlay p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          flex-direction: column;
+          padding: 20px;
+        }
+
+        .contact-info {
+          margin: 0 15px 30px;
+          padding: 15px;
+        }
+
+        .header h1 {
+          font-size: 2.2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+
+        body::before {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Protection overlay -->
+    <div class="protection-overlay" id="protectionOverlay">
+      <h2>Content Protection Active</h2>
+      <p>
+        This page is protected against screenshots and content copying. Please
+        respect the privacy of this information.
+      </p>
+      <button
+        onclick="hideOverlay()"
+        style="
+          background: #d4af37;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          font-family: 'Lora', serif;
+          cursor: pointer;
+        "
+      >
+        I Understand
+      </button>
+    </div>
+
+    <div class="biodata-container">
+      <div class="corner-decoration top-left"></div>
+      <div class="corner-decoration top-right"></div>
+      <div class="corner-decoration bottom-left"></div>
+      <div class="corner-decoration bottom-right"></div>
+
+      <div class="header">
+        <div class="header-decoration">✧</div>
+        <h1>Ismail</h1>
+        <p class="subtitle">Seeking a partner with Allah's blessings</p>
+      </div>
+
+      <div class="content">
+        <div class="details">
+          <section>
+            <h2>Personal Information</h2>
+            <ul>
+              <li>
+                <strong>Date of Birth:</strong> <span>10-August-1997</span>
+              </li>
+              <li><strong>Height:</strong> <span>5 feet 8 inches</span></li>
+              <li><strong>Religion:</strong> <span>Muslim</span></li>
+              <li><strong>Education:</strong> <span>BCA (graduate)</span></li>
+              <li>
+                <strong>Profession:</strong> <span>Software Engineer</span>
+              </li>
+              <li>
+                <strong>Company:</strong>
+                <span
+                  >Orbit Technologies at Vidynagar, J C Nagar, New Hubli,
+                  Hubballi</span
+                >
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Family Background</h2>
+            <ul>
+              <li>
+                <strong>Father:</strong>
+                <span>Chamansab Bhattipuri (Landlord)</span>
+              </li>
+              <li>
+                <strong>Area:</strong>
+                <span>Real Estate in Bankapur, Shiggaon, Savanur & nearby</span>
+              </li>
+              <li><strong>Mother:</strong> <span>Homemaker</span></li>
+              <li>
+                <strong>Siblings:</strong>
+                <span>2 Brothers, 2 Sisters (All Elder Married)</span>
+              </li>
+              <li><strong>Brother 1:</strong> <span>Advocate</span></li>
+              <li>
+                <strong>Brother 2:</strong> <span>Medical Sales Executive</span>
+              </li>
+              <li>
+                <strong>Family Values:</strong> <span>Education-oriented</span>
+              </li>
+            </ul>
+            <div style="margin-top: 20px; text-align: left">
+              <a
+                href="BioDataIsmail.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="
+                  display: inline-block;
+                  background: #d4af37;
+                  color: white;
+                  padding: 10px 20px;
+                  border-radius: 5px;
+                  text-decoration: none;
+                  font-family: 'Cinzel', serif;
+                  cursor: pointer;
+                "
+                >Open PDF</a
+              >
+            </div>
+          </section>
+
+          <!-- <section>
+            <h2>Expectations</h2>
+            <ul>
+              <li>
+                <strong>Profession:</strong>
+                <span>Working or non-working both acceptable</span>
+              </li>
+              <li><strong>Family Values:</strong> <span>Education-oriented</span></li>
+            </ul>
+          </section> -->
+        </div>
+
+        <div class="photo-container">
+          <div class="photo-stack">
+            <img src="img/img1.jpg" class="photo active" alt="Photo 1" />
+            <img src="img/img3.jpg" class="photo" alt="Photo 2" />
+          </div>
+          <div class="photo-nav">
+            <div class="photo-dot active" data-index="0"></div>
+            <div class="photo-dot" data-index="1"></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="contact-info">
+        <h2>Contact Information</h2>
+        <ul>
+          <li>
+            <strong>Phone:</strong> <span>+91-9964716276 (Father's)</span>
+          </li>
+          <li>
+            <strong>Address:</strong> <span>Hubballi, Karnataka, India</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      // ====================
+      // PROTECTION FEATURES
+      // ====================
+
+      // Show protection overlay initially
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("protectionOverlay").style.display = "flex";
+      });
+
+      function hideOverlay() {
+        document.getElementById("protectionOverlay").style.display = "none";
+      }
+
+      // Disable right-click context menu
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        showProtectionMessage("Right-click is disabled to protect content.");
+      });
+
+      // Disable text selection
+      document.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+
+      // Block keyboard shortcuts for screenshots and printing
+      document.addEventListener("keydown", function (e) {
+        // Print Screen, Ctrl+P, Ctrl+S, etc.
+        if (
+          e.key === "PrintScreen" ||
+          (e.ctrlKey && e.key === "p") ||
+          (e.ctrlKey && e.key === "s") ||
+          (e.metaKey && e.key === "p") || // For Mac
+          (e.metaKey && e.key === "s")
+        ) {
+          e.preventDefault();
+          showProtectionMessage("Screenshots and printing are disabled.");
+
+          // Try to clear clipboard if PrintScreen was pressed
+          if (e.key === "PrintScreen") {
+            navigator.clipboard.writeText("").catch((err) => {});
+          }
+        }
+      });
+
+      // Detect window resize (some screenshot tools trigger this)
+      let lastWidth = window.innerWidth;
+      window.addEventListener("resize", function () {
+        if (window.innerWidth !== lastWidth) {
+          showProtectionMessage("Screenshot attempt detected.");
+        }
+        lastWidth = window.innerWidth;
+      });
+
+      // Block dragging images
+      document.addEventListener("dragstart", function (e) {
+        if (e.target.tagName === "IMG") {
+          e.preventDefault();
+          showProtectionMessage("Image dragging is disabled.");
+        }
+      });
+
+      // Block copying content
+      document.addEventListener("copy", function (e) {
+        e.preventDefault();
+        showProtectionMessage("Content copying is disabled.");
+      });
+
+      // Block cut content
+      document.addEventListener("cut", function (e) {
+        e.preventDefault();
+        showProtectionMessage("Content cutting is disabled.");
+      });
+
+      // Block F12 developer tools (not foolproof)
+      document.addEventListener("keydown", function (e) {
+        if (
+          e.key === "F12" ||
+          (e.ctrlKey && e.shiftKey && e.key === "I") ||
+          (e.ctrlKey && e.shiftKey && e.key === "J") ||
+          (e.ctrlKey && e.shiftKey && e.key === "C")
+        ) {
+          e.preventDefault();
+          showProtectionMessage("Developer tools are disabled.");
+        }
+      });
+
+      // Show protection message
+      function showProtectionMessage(message) {
+        const overlay = document.getElementById("protectionOverlay");
+        overlay.querySelector("p").textContent = message;
+        overlay.style.display = "flex";
+      }
+
+      // ====================
+      // PHOTO GALLERY
+      // ====================
+      const photos = document.querySelectorAll(".photo");
+      const dots = document.querySelectorAll(".photo-dot");
+      let currentIndex = 0;
+
+      function showPhoto(index) {
+        photos.forEach((photo, i) => {
+          photo.classList.toggle("active", i === index);
+        });
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+        currentIndex = index;
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", function () {
+          const index = parseInt(this.getAttribute("data-index"));
+          showPhoto(index);
+        });
+      });
+
+      document.querySelector(".photo-stack").addEventListener("click", () => {
+        const next = (currentIndex + 1) % photos.length;
+        showPhoto(next);
+      });
+
+      setInterval(() => {
+        const next = (currentIndex + 1) % photos.length;
+        showPhoto(next);
+      }, 5000);
+
+      // ====================
+      // ADDITIONAL PROTECTION
+      // ====================
+
+      // Periodically check for dev tools (not 100% reliable)
+      setInterval(function () {
+        const before = new Date().getTime();
+        debugger;
+        const after = new Date().getTime();
+        if (after - before > 100) {
+          showProtectionMessage(
+            "Developer tools detected. Please close them to view content properly."
+          );
+        }
+      }, 1000);
+
+      // Disable view source
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "u") {
+          e.preventDefault();
+          showProtectionMessage("View source is disabled.");
+        }
+      });
+    </script>
+  </body>
+</html>
