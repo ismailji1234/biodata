@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BioData - PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Lora", serif;
+        background: #f0ece2;
+        padding: 20px;
+      }
+
+      .viewer-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1000px;
+        margin: 0 auto 20px;
+        padding: 12px 20px;
+        background: #2b2b2b;
+        color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .viewer-toolbar .title {
+        font-family: "Cinzel", serif;
+        font-size: 1.1rem;
+        color: #d4af37;
+      }
+
+      .viewer-toolbar .info {
+        font-size: 0.85rem;
+        opacity: 0.8;
+      }
+
+      .pdf-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .pdf-page {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto 20px;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+      }
+
+      .pdf-loading,
+      .pdf-error {
+        text-align: center;
+        padding: 60px 20px;
+        color: #555;
+        font-size: 1.1rem;
+      }
+
+      .pdf-error a {
+        color: #d4af37;
+      }
+
+      .back-link {
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2b2b2b;
+        color: #fff;
+        padding: 10px 22px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-family: "Cinzel", serif;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 20;
+      }
+
+      .back-link:hover {
+        background: #d4af37;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .viewer-toolbar {
+          padding: 10px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="viewer-toolbar">
+      <span class="title">BioData PDF</span>
+      <span class="info">Viewing in browser</span>
+    </div>
+
+    <div class="pdf-container" id="pdfContainer">
+      <div class="pdf-loading" id="pdfLoading">Loading PDF...</div>
+    </div>
+
+    <div class="pdf-error" id="pdfError" style="display: none">
+      Unable to preview the PDF in this browser.
+      <a href="BioDataIsmail.pdf" target="_blank">Open PDF here</a>
+    </div>
+
+    <a class="back-link" href="index.html">Back to BioData</a>
+
+    <script>
+      var PDF_URL = "BioDataIsmail.pdf";
+
+      function loadPdfLib() {
+        return new Promise(function (resolve, reject) {
+          if (window["pdfjs-dist/build/pdf"]) {
+            return resolve(window["pdfjs-dist/build/pdf"]);
+          }
+          var script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+          script.onload = function () {
+            resolve(window["pdfjs-dist/build/pdf"]);
+          };
+          script.onerror = function () {
+            reject(new Error("PDF library failed to load."));
+          };
+          document.head.appendChild(script);
+        });
+      }
+
+      async function renderPdf() {
+        var container = document.getElementById("pdfContainer");
+        var loading = document.getElementById("pdfLoading");
+        var error = document.getElementById("pdfError");
+        loading.style.display = "block";
+        error.style.display = "none";
+        try {
+          var pdfjsLib = await loadPdfLib();
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+          var doc = await pdfjsLib.getDocument(PDF_URL).promise;
+          loading.style.display = "none";
+          var maxWidth = Math.min(1000, document.getElementById("pdfContainer").clientWidth || 900);
+          for (var pageNum = 1; pageNum <= doc.numPages; pageNum++) {
+            var page = await doc.getPage(pageNum);
+            var viewport = page.getViewport({ scale: 1 });
+            var scale = maxWidth / viewport.width;
+            var scaled = page.getViewport({ scale: scale });
+            var canvas = document.createElement("canvas");
+            canvas.className = "pdf-page";
+            canvas.width = scaled.width;
+            canvas.height = scaled.height;
+            container.appendChild(canvas);
+            await page.render({
+              canvasContext: canvas.getContext("2d"),
+              viewport: scaled,
+            }).promise;
+          }
+        } catch (err) {
+          loading.style.display = "none";
+          error.style.display = "block";
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", renderPdf);
+    </script>
+  </body>
+</html>
