@@ -23,33 +23,6 @@
         padding: 20px;
       }
 
-      .viewer-toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1000px;
-        margin: 0 auto 20px;
-        padding: 12px 20px;
-        background: #2b2b2b;
-        color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      }
-
-      .viewer-toolbar .title {
-        font-family: "Cinzel", serif;
-        font-size: 1.1rem;
-        color: #d4af37;
-      }
-
-      .viewer-toolbar .info {
-        font-size: 0.85rem;
-        opacity: 0.8;
-      }
-
       .pdf-container {
         max-width: 1000px;
         margin: 0 auto;
@@ -100,19 +73,10 @@
         body {
           padding: 10px;
         }
-
-        .viewer-toolbar {
-          padding: 10px 14px;
-        }
       }
     </style>
   </head>
   <body>
-    <div class="viewer-toolbar">
-      <span class="title">BioData PDF</span>
-      <span class="info">Viewing in browser</span>
-    </div>
-
     <div class="pdf-container" id="pdfContainer">
       <div class="pdf-loading" id="pdfLoading">Loading PDF...</div>
     </div>
