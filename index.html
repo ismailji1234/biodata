@@ -272,6 +272,69 @@
         margin-bottom: 30px;
       }
 
+      .pdf-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9000;
+        display: none;
+        overflow-y: auto;
+      }
+
+      .pdf-modal.open {
+        display: block;
+      }
+
+      .pdf-toolbar {
+        position: sticky;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: #333;
+        color: white;
+        font-family: "Cinzel", serif;
+        z-index: 10;
+      }
+
+      .pdf-close {
+        background: #d4af37;
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        font-family: "Lora", serif;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      #pdfViewer {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .pdf-canvas {
+        max-width: 100%;
+        height: auto !important;
+        margin: 0 auto 20px;
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .pdf-fallback {
+        color: #fff;
+        text-align: center;
+        margin: 30px 0;
+        font-size: 0.95rem;
+      }
+
+      .pdf-fallback a {
+        color: #d4af37;
+      }
+
       @media (max-width: 768px) {
         .content {
           flex-direction: column;
@@ -384,7 +447,7 @@
             <div style="margin-top: 20px; text-align: left">
               <a
                 href="BioDataIsmail.pdf"
-                target="_blank"
+                onclick="openPdf(event)"
                 rel="noopener noreferrer"
                 style="
                   display: inline-block;
@@ -436,6 +499,18 @@
           </li>
         </ul>
       </section>
+    </div>
+
+    <div class="pdf-modal" id="pdfModal">
+      <div class="pdf-toolbar">
+        <span>BioData PDF</span>
+        <button class="pdf-close" onclick="closePdf()">Close</button>
+      </div>
+      <div id="pdfViewer"></div>
+      <div class="pdf-fallback" id="pdfFallback" style="display: none">
+        Unable to preview the PDF on this device.
+        <a href="BioDataIsmail.pdf" target="_blank">Open PDF here</a>
+      </div>
     </div>
 
     <script>
@@ -588,6 +663,73 @@
           e.preventDefault();
           showProtectionMessage("View source is disabled.");
         }
+      });
+
+      // ====================
+      // PDF VIEWER
+      // ====================
+      function loadPdfJs() {
+        return new Promise(function (resolve, reject) {
+          if (window["pdfjs-dist/build/pdf"]) {
+            return resolve(window["pdfjs-dist/build/pdf"]);
+          }
+          var script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+          script.onload = function () {
+            resolve(window["pdfjs-dist/build/pdf"]);
+          };
+          script.onerror = function () {
+            reject(new Error("Failed to load PDF viewer."));
+          };
+          document.head.appendChild(script);
+        });
+      }
+
+      async function openPdf(e) {
+        if (e) e.preventDefault();
+        var modal = document.getElementById("pdfModal");
+        var container = document.getElementById("pdfViewer");
+        var fallback = document.getElementById("pdfFallback");
+        container.innerHTML = "";
+        fallback.style.display = "none";
+        modal.classList.add("open");
+        try {
+          var pdfjsLib = await loadPdfJs();
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+          var doc = await pdfjsLib.getDocument("BioDataIsmail.pdf").promise;
+          var maxWidth = Math.min(
+            900,
+            (container.clientWidth || 700) - 20
+          );
+          for (var pageNum = 1; pageNum <= doc.numPages; pageNum++) {
+            var page = await doc.getPage(pageNum);
+            var viewport = page.getViewport({ scale: 1 });
+            var scale = maxWidth / viewport.width;
+            var scaled = page.getViewport({ scale: scale });
+            var canvas = document.createElement("canvas");
+            canvas.className = "pdf-canvas";
+            canvas.width = scaled.width;
+            canvas.height = scaled.height;
+            container.appendChild(canvas);
+            await page.render({
+              canvasContext: canvas.getContext("2d"),
+              viewport: scaled,
+            }).promise;
+          }
+        } catch (err) {
+          container.innerHTML = "";
+          fallback.style.display = "block";
+        }
+      }
+
+      function closePdf() {
+        document.getElementById("pdfModal").classList.remove("open");
+      }
+
+      document.getElementById("pdfModal").addEventListener("click", function (e) {
+        if (e.target === this) closePdf();
       });
     </script>
   </body>
