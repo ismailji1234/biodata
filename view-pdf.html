@@ -35,6 +35,7 @@
         margin: 0 auto 20px;
         background: #fff;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+        image-rendering: auto;
       }
 
       .pdf-loading,
@@ -121,20 +122,26 @@
             "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
           var doc = await pdfjsLib.getDocument(PDF_URL).promise;
           loading.style.display = "none";
-          var maxWidth = Math.min(1000, document.getElementById("pdfContainer").clientWidth || 900);
+          var containerEl = document.getElementById("pdfContainer");
+          var maxWidth = containerEl.clientWidth || 900;
+          var dpr = window.devicePixelRatio || 1;
           for (var pageNum = 1; pageNum <= doc.numPages; pageNum++) {
             var page = await doc.getPage(pageNum);
             var viewport = page.getViewport({ scale: 1 });
-            var scale = maxWidth / viewport.width;
-            var scaled = page.getViewport({ scale: scale });
+            var displayScale = maxWidth / viewport.width;
+            var cssWidth = maxWidth;
+            var cssHeight = viewport.height * displayScale;
+            var renderScale = displayScale * dpr;
             var canvas = document.createElement("canvas");
             canvas.className = "pdf-page";
-            canvas.width = scaled.width;
-            canvas.height = scaled.height;
+            canvas.style.width = cssWidth + "px";
+            canvas.style.height = cssHeight + "px";
+            canvas.width = Math.floor(cssWidth * dpr);
+            canvas.height = Math.floor(cssHeight * dpr);
             container.appendChild(canvas);
             await page.render({
               canvasContext: canvas.getContext("2d"),
-              viewport: scaled,
+              viewport: page.getViewport({ scale: renderScale }),
             }).promise;
           }
         } catch (err) {
