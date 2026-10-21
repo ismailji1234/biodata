@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -300,7 +300,7 @@
 
   <body>
     <!-- Protection overlay -->
-    <div class="protection-overlay" id="protectionOverlay">
+    <!-- <div class="protection-overlay" id="protectionOverlay">
       <h2>Content Protection Active</h2>
       <p>
         This page is protected against screenshots and content copying. Please
@@ -313,13 +313,13 @@
           color: white;
           border: none;
           padding: 10px 20px;
-          font-family: 'Lora', serif;
+          font-family: &quot;Lora&quot;, serif;
           cursor: pointer;
         "
       >
         I Understand
       </button>
-    </div>
+    </div> -->
 
     <div class="biodata-container">
       <div class="corner-decoration top-left"></div>
@@ -368,7 +368,10 @@
                 <strong>Area:</strong>
                 <span>Real Estate in Bankapur, Shiggaon, Savanur & nearby</span>
               </li>
-              <li><strong>Mother:</strong> <span>Al-haj Parveen Banu (Homemaker)</span></li>
+              <li>
+                <strong>Mother:</strong>
+                <span>Al-haj Parveen Banu (Homemaker)</span>
+              </li>
               <li>
                 <strong>Siblings:</strong>
                 <span>2 Brothers, 2 Sisters (All Elder Married)</span>
@@ -393,7 +396,7 @@
                   padding: 10px 20px;
                   border-radius: 5px;
                   text-decoration: none;
-                  font-family: 'Cinzel', serif;
+                  font-family: &quot;Cinzel&quot;, serif;
                   cursor: pointer;
                 "
                 >Open PDF</a
@@ -415,8 +418,8 @@
 
         <div class="photo-container">
           <div class="photo-stack">
-            <img src="img/img1.jpg" class="photo active" alt="Photo 1" />
-            <img src="img/img3.jpg" class="photo" alt="Photo 2" />
+            <img src="img/img1.jpeg" class="photo active" alt="Photo 1" />
+            <img src="img/img2.jpeg" class="photo" alt="Photo 2" />
           </div>
           <div class="photo-nav">
             <div class="photo-dot active" data-index="0"></div>
@@ -561,10 +564,26 @@
         showPhoto(next);
       });
 
-      setInterval(() => {
-        const next = (currentIndex + 1) % photos.length;
-        showPhoto(next);
-      }, 5000);
+      const photoStack = document.querySelector(".photo-stack");
+      let slideInterval;
+
+      function startSlideshow() {
+        slideInterval = setInterval(() => {
+          showPhoto((currentIndex + 1) % photos.length);
+        }, 5000);
+      }
+
+      photoStack.addEventListener("mouseenter", () =>
+        clearInterval(slideInterval),
+      );
+      photoStack.addEventListener("mouseleave", startSlideshow);
+
+      photoStack.addEventListener("touchstart", () =>
+        clearInterval(slideInterval),
+      );
+      photoStack.addEventListener("touchend", startSlideshow);
+
+      startSlideshow();
 
       // ====================
       // ADDITIONAL PROTECTION
@@ -577,7 +596,7 @@
         const after = new Date().getTime();
         if (after - before > 100) {
           showProtectionMessage(
-            "Developer tools detected. Please close them to view content properly."
+            "Developer tools detected. Please close them to view content properly.",
           );
         }
       }, 1000);
