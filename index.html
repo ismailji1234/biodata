@@ -539,50 +539,56 @@
       // ====================
       // PHOTO GALLERY
       // ====================
+
       const photos = document.querySelectorAll(".photo");
       const dots = document.querySelectorAll(".photo-dot");
+      const photoStack = document.querySelector(".photo-stack");
+
       let currentIndex = 0;
+      let slideInterval = null;
 
       function showPhoto(index) {
         photos.forEach((photo, i) => {
           photo.classList.toggle("active", i === index);
         });
+
         dots.forEach((dot, i) => {
           dot.classList.toggle("active", i === index);
         });
+
         currentIndex = index;
       }
 
-      dots.forEach((dot) => {
-        dot.addEventListener("click", function () {
-          const index = parseInt(this.getAttribute("data-index"));
-          showPhoto(index);
-        });
-      });
-
-      document.querySelector(".photo-stack").addEventListener("click", () => {
-        const next = (currentIndex + 1) % photos.length;
-        showPhoto(next);
-      });
-
-      const photoStack = document.querySelector(".photo-stack");
-      let slideInterval;
-
       function startSlideshow() {
+        clearInterval(slideInterval);
+
         slideInterval = setInterval(() => {
           showPhoto((currentIndex + 1) % photos.length);
         }, 5000);
       }
 
-      photoStack.addEventListener("mouseenter", () =>
-        clearInterval(slideInterval),
-      );
+      function stopSlideshow() {
+        clearInterval(slideInterval);
+        slideInterval = null;
+      }
+
+      // Pause while the mouse is over the image
+      photoStack.addEventListener("mouseenter", stopSlideshow);
       photoStack.addEventListener("mouseleave", startSlideshow);
 
-      photoStack.addEventListener("touchstart", () =>
-        clearInterval(slideInterval),
-      );
-      photoStack.addEventListener("touchend", startSlideshow);
+      // Pause while pressing or holding
+      photoStack.addEventListener("pointerdown", stopSlideshow);
+      photoStack.addEventListener("pointerup", startSlideshow);
+      photoStack.addEventListener("pointercancel", startSlideshow);
+
+      // Clicking a dot selects a photo and resets the timer
+      dots.forEach((dot) => {
+        dot.addEventListener("click", (event) => {
+          event.stopPropagation();
+          showPhoto(Number(dot.dataset.index));
+          startSlideshow();
+        });
+      });
 
       startSlideshow();
 
